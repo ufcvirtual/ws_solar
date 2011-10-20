@@ -1,0 +1,36 @@
+<h1>Listing discussion_posts</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Discussion</th>
+    <th>Profile</th>
+    <th>Content</th>
+    <th>Created at</th>
+    <th>Updated at</th>
+    <th>Parent</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @discussion_posts.each do |discussion_post| %>
+  <%# raise "#{discussion_post}" %>
+  <tr>
+    <td><%= discussion_post.user_id %></td>
+    <td><%= discussion_post.discussion_id %></td>
+    <td><%= discussion_post.profile_id %></td>
+    <td><%= discussion_post.content %></td>
+    <td><%= discussion_post.created_at %></td>
+    <td><%= discussion_post.updated_at %></td>
+    <td><%= discussion_post.parent_id %></td>
+    <td><%= link_to 'Show', discussion_post_path(Discussion.find(discussion_post.discussion_id), discussion_post) %></td>
+    <td><%= link_to 'Edit', edit_discussion_post_path(Discussion.find(discussion_post.discussion_id), discussion_post) %></td>
+    <td><%= link_to 'Destroy', discussion_post_path(Discussion.find(discussion_post.discussion_id), discussion_post), :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Discussion post', new_discussion_post_path %>

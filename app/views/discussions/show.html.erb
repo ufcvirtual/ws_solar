@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @discussion.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @discussion.description %>
+</p>
+
+<p>
+  <b>Allocation tag:</b>
+  <%= @discussion.allocation_tag_id %>
+</p>
+
+<p>
+  <b>Schedule:</b>
+  <%= @discussion.schedule_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_discussion_path(@discussion) %> |
+<%= link_to 'Back', discussions_path %>

@@ -1,0 +1,46 @@
+<%= form_for(@discussion_post) do |f| %>
+
+  <% if @discussion_post.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@discussion_post.errors.count, "error") %> prohibited this discussion_post from being saved:</h2>
+
+      <ul>
+      <% @discussion_post.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :user_id %><br />
+    <%= f.text_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :discussion_id %><br />
+    <%= f.text_field :discussion_id %>
+  </div>
+  <div class="field">
+    <%= f.label :profile_id %><br />
+    <%= f.text_field :profile_id %>
+  </div>
+  <div class="field">
+    <%= f.label :content %><br />
+    <%= f.text_field :content %>
+  </div>
+  <div class="field">
+    <%= f.label :created_at %><br />
+    <%= f.datetime_select :created_at %>
+  </div>
+  <div class="field">
+    <%= f.label :updated_at %><br />
+    <%= f.datetime_select :updated_at %>
+  </div>
+  <div class="field">
+    <%= f.label :parent_id %><br />
+    <%= f.text_field :parent_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

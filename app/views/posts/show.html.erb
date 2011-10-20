@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @discussion_post.user_id %>
+</p>
+
+<p>
+  <b>Discussion:</b>
+  <%= @discussion_post.discussion_id %>
+</p>
+
+<p>
+  <b>Profile:</b>
+  <%= @discussion_post.profile_id %>
+</p>
+
+<p>
+  <b>Content:</b>
+  <%= @discussion_post.content %>
+</p>
+
+<p>
+  <b>Created at:</b>
+  <%= @discussion_post.created_at %>
+</p>
+
+<p>
+  <b>Updated at:</b>
+  <%= @discussion_post.updated_at %>
+</p>
+
+<p>
+  <b>Parent:</b>
+  <%= @discussion_post.parent_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_discussion_post_path(Discussion.find(@discussion_post.discussion_id), @discussion_post) %> |
+<%= link_to 'Back', discussion_posts_path %>
