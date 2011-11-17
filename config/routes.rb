@@ -1,5 +1,12 @@
 WsSolar::Application.routes.draw do
 
+  devise_for :users, :path_names => {:sign_up => 'register'}
+
+  devise_scope :user do
+    get "login", :to => "devise/sessions#new"
+    get "logout", :to => "devise/sessions#destroy"
+  end
+
   get "home/index"
 
   resources :discussions do

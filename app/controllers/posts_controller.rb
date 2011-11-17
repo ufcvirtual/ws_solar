@@ -1,4 +1,7 @@
 class PostsController < ApplicationController
+
+  before_filter :authenticate_user!
+
   # GET /discussions/1/posts
   # GET /discussions/1/posts.xml
   def index
