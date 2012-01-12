@@ -2,7 +2,7 @@ class SessionsController < Devise::SessionsController
 
   def create
     respond_to do |format|
-      format.html { super }
+      # format.html { super }
       format.xml {
         warden.authenticate!(:scope => resource_name, :recall => "#{controller_path}#new")
         render :status => 200, :xml => { :session => { :error => "Success", :auth_token => current_user.authentication_token }}
@@ -10,6 +10,7 @@ class SessionsController < Devise::SessionsController
 
       format.json {
         warden.authenticate!(:scope => resource_name, :recall => "#{controller_path}#new")
+        current_user.reset_authentication_token!
         render :status => 200, :json => { :session => { :error => "Success", :auth_token => current_user.authentication_token } }
       }
     end
@@ -17,17 +18,17 @@ class SessionsController < Devise::SessionsController
 
   def destroy
     respond_to do |format|
-      format.html { super }
+      # format.html { super }
       format.xml {
         warden.authenticate!(:scope => resource_name, :recall => "#{controller_path}#new")
         current_user.authentication_token = nil
-        render :xml => {}.to_xml, :status => :ok
+        render :status => :ok, :xml => {}.to_xml
       }
 
       format.json {
         warden.authenticate!(:scope => resource_name, :recall => "#{controller_path}#new")
         current_user.authentication_token = nil
-        render :json => {}.to_json, :status => :ok
+        render :status => :ok, :json => {}.to_json
       }
     end
   end
