@@ -1,5 +1,9 @@
 WsSolar::Application.routes.draw do
 
+  get "groups/index"
+
+  get "groups/show"
+
   devise_for :users, :controllers => { :sessions => "sessions" }
 
   devise_scope :user do
