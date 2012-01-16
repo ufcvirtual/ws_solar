@@ -3,7 +3,11 @@ class DiscussionsController < ApplicationController
   # GET /discussions
   # GET /discussions.xml
   def index
-    @discussions = Discussion.all
+    # recupera a allocation_tag da turma
+    allocation_tag = AllocationTag.find_by_group_id(params[:group_id])
+    allocation_tag_id = allocation_tag.nil? ? nil : allocation_tag.id
+
+    @discussions = Discussion.all_by_allocation_tag_id(allocation_tag_id)
 
     respond_to do |format|
       format.html # index.html.erb

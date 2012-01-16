@@ -1,9 +1,5 @@
 WsSolar::Application.routes.draw do
 
-  get "groups/index"
-
-  get "groups/show"
-
   devise_for :users, :controllers => { :sessions => "sessions" }
 
   devise_scope :user do
@@ -13,11 +9,21 @@ WsSolar::Application.routes.draw do
 
   resources :token_authentications, :only => [:create, :destroy]
 
+  # curriculum_units/:id/groups/
+  resources :curriculum_units, :only => [:index, :show] do
+    resources :groups, :only => [:index, :show]
+  end
+
+  # groups/:id/discussions
+  resources :groups, :only => [:show] do
+    resources :discussions, :only => [:index, :show]
+  end
+
+  # discussions/:id/posts
   resources :discussions do
     resources :posts
   end
 
-  resources :curriculum_units, :only => [:index, :show]
 
   root :to => 'sessions#new'
 
