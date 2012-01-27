@@ -74,9 +74,11 @@ class PostsController < ApplicationController
       if @discussion_post.update_attributes(params[:discussion_post])
         format.html { redirect_to(@discussion_post, :notice => 'Discussion post was successfully updated.') }
         format.xml  { head :ok }
+        format.json  { head :ok }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @discussion_post.errors, :status => :unprocessable_entity }
+        format.json  { render :json => @discussion_post.errors, :status => :unprocessable_entity }
       end
     end
   end
