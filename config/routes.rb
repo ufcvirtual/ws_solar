@@ -1,5 +1,7 @@
 WsSolar::Application.routes.draw do
 
+  get "home/index"
+
   devise_for :users, :controllers => { :sessions => "sessions" }
 
   devise_scope :user do
@@ -24,8 +26,7 @@ WsSolar::Application.routes.draw do
     resources :posts
   end
 
-
-  root :to => 'sessions#new'
+  root :to => "home#index"
 
 # Sample resource route with more complex sub-resources
 #   resources :products do
