@@ -48,7 +48,7 @@ class PostsController < ApplicationController
     # parametros necessarios para se criar um post
     params[:discussion_post][:user_id] = current_user.id
     params[:discussion_post][:discussion_id] = params[:discussion_id]
-    # params[:discussion_post][:profile_id] = params[:profile_id]
+    params[:discussion_post][:profile_id] = Profile.find_by_user_id(current_user.id) # recuperacao de profile temporaria 2012-02-02
 
     @discussion_post = DiscussionPost.new(params[:discussion_post])
 
