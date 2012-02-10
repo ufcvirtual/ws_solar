@@ -26,6 +26,11 @@ WsSolar::Application.routes.draw do
     resources :posts
   end
 
+  # anexo de arquivos a um post
+  resources :posts, :only => [:attach_file] do
+    post 'attach_file', :on => :member
+  end
+
   root :to => "home#index"
 
 # Sample resource route with more complex sub-resources
