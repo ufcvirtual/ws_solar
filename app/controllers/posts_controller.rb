@@ -1,9 +1,16 @@
 class PostsController < ApplicationController
 
+  include ActionView::Helpers::SanitizeHelper
+
   # GET /discussions/1/posts
   # GET /discussions/1/posts.xml
   def index
     @discussion_posts = DiscussionPost.find_all_by_discussion_id(params[:discussion_id])
+
+    # retirando caracteres indesejados
+    # para esta parte do projeto, os caracteres HTML nao devem ser exibidos
+    posts = @discussion_posts
+    @discussion_posts.collect {|post| post.content = sanitize(post.content, :tags => []).strip }
 
     respond_to do |format|
       format.html # index.html.erb

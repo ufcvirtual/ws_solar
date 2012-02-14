@@ -1,0 +1,161 @@
+"pt-BR":
+  # Usado no Array.to_sentence
+
+  # ActiveRecord
+  activerecord:
+    models:
+      user: "Usuario"
+      curriculum_unit: "Unidade Curricular"
+      group: "Turma"
+      course: "Curso"
+    attributes:
+      user:
+        alternate_email: "E-mail alternativo"
+        password: "Senha"
+        current_password: "Senha"
+        new_password: "Nova Senha"
+        username: "Login"
+        name: "Nome"
+        nick: "Apelido"
+        birthdate: "Data de Nascimento"
+        gender: "Sexo"
+        address: "Endereço"
+        address_number: "Número"
+        address_neighborhood: "Bairro"
+        address_complement: "Complemento"
+        zipcode: "CEP"
+        cpf: "CPF "
+        country: "País"
+        state: "Estado"
+        city: "Cidade"
+        institution: "Instituição"
+        special_needs: "Necessidades especiais"
+        password_confirmation: "Confirmação da senha"
+        interests: "Interesses"
+        music: "Música"
+        movies: "Filmes"
+        books: "Livros"
+        phrase: "Frase"
+        email: "E-mail"
+        telephone: "Telefone"
+        cell_phone: "Celular"
+        email_confirmation: "Confirmação do e-mail"
+        photo_content_type: "Tipo de arquivo inválido."
+        photo_file_size: "Arquivo muito grande. O tamanho máximo da sua foto deve ser de até 700KB."
+      curriculum_unit:
+        category: "Categoria"
+      course: 
+        name: Nome
+        code: Codigo   
+      public_file:
+        attachment_content_type: ""
+        attachment_file_size: "Arquivo muito grande. O tamanho máximo deve ser de até 5MB."
+      discussion_post_file:
+        attachment_content_type: ""
+      message_file:
+        message_content_type: ""
+      assignment_file:
+        attachment_content_type: ""
+        attachment_file_size: "Arquivo muito grande. O tamanho máximo deve ser de até 5MB."
+      comment_file:
+        attachment_content_type: ""
+        attachment_file_size: "Arquivo muito grande. O tamanho máximo deve ser de até 5MB."
+
+    errors:
+      template:
+        header:
+          one: "Não foi possível gravar %{model}: 1 erro"
+          other: "Não foi possível gravar %{model}: %{count} erros."
+        body: "Por favor, verifique o(s) seguinte(s) campo(s):"
+      messages:
+        inclusion: "não está incluído(a) na lista"
+        exclusion: "não está disponível"
+        invalid: "não é válido(a)"
+        confirmation: "não está de acordo com a confirmação"
+        accepted: "deve ser aceito(a)"
+        empty: "deve ser preenchido(a)"
+        blank: "deve ser preenchido(a)"
+        too_long: " é muito longo(a) (máximo: %{count} caracteres)"
+        too_short: "é muito curto(a) (mínimo: %{count} caracteres)"
+        wrong_length: "não possui o tamanho esperado (%{count} caracteres)"
+        taken: "já está em uso"
+        not_a_number: "não é um número"
+        not_an_integer: "não é um número inteiro"
+        greater_than: "deve ser maior do que %{count}"
+        greater_than_or_equal_to: "deve ser maior ou igual a %{count}"
+        equal_to: "deve ser igual a %{count}"
+        less_than: "deve ser menor do que %{count}"
+        less_than_or_equal_to: "deve ser menor ou igual a %{count}"
+        odd: "deve ser ímpar"
+        even: "deve ser par"
+        record_invalid: "%{errors}"
+      models:
+        user:
+          attributes:
+            email:
+              not_found: "E-mail não encontrado"
+            photo_content_type:
+              invalid_type: "Por favor, envie apenas arquivos do tipo JPG, GIF ou PNG."
+        assignment_file:
+          attributes:
+            attachment_content_type:
+              invalid_type: "Tipo de arquivo inválido."
+        public_file:
+          attributes:
+            attachment_content_type:
+              invalid_type: "Tipo de arquivo inválido."
+        comment_file:
+          attributes:
+            attachment_content_type:
+              invalid_type: "Tipo de arquivo inválido."
+        discussion_post_file:
+          attributes:
+            attachment_content_type:
+              invalid_type: "Tipo de arquivo inválido."
+        message_file:
+          attributes:
+            message_content_type:
+              invalid_type: "Tipo de arquivo inválido."
+
+  devise:
+    failure:
+      already_authenticated: 'Você já está logado.'
+      unauthenticated: 'Você precisa logar antes de continuar.'
+      unconfirmed: 'Você precisa confirmar sua conta antes de continuar.'
+      locked: 'Sua conta está bloqueada.'
+      invalid: 'Usuário ou senha inválidos.'
+      invalid_token: 'Invalid authentication token.'
+      timeout: 'Sua sessão expirou, por favor faça login novamente para continuar.'
+      inactive: 'Sua conta ainda não foi ativada.'
+    sessions:
+      signed_in: 'Login efetuado com sucesso.'
+      signed_out: 'Logout efetuado com sucesso.'
+    passwords:
+      send_instructions: 'Você receberá um email com instruções sobre como resetar sua senha em alguns minutos.'
+      updated: 'Sua senha foi modificada com sucesso. Você agora está logado.'
+      updated_not_active: 'Sua senha foi modificada com sucesso. Você agora está logado.'
+      send_paranoid_instructions: "Um link de recuperação de senha será enviado para seu email, caso ele exista em nossa base de dados."
+    confirmations:
+      send_instructions: 'Instruções de como confirmar sua conta serão enviados para seu email em alguns minutos.'
+      send_paranoid_instructions: 'Instruções de como confirmar sua conta serão enviados para seu email em alguns minutos, caso ele exista em nossa base de dados'
+      confirmed: 'Sua conta foi confirmada com sucesso. Agora você está logado.'
+    registrations:
+      signed_up: 'Bem vindo! Sua conta foi criada com sucesso.'
+      inactive_signed_up: "Sua conta foi criada com sucesso. Entretanto, não foi possível fazer seu login pois sua conta está com status '%{reason}'."
+      updated: 'Dados atualizados com sucesso.'
+      destroyed: 'Sua conta foi cancelada com sucesso.'
+      reasons:
+        inactive: 'inativa'
+        unconfirmed: 'não confirmada'
+        locked: 'bloqueada'
+    unlocks:
+      send_instructions: 'Você receberá um email sobre como desbloquear sua conta em alguns minutos.'
+      unlocked: 'Sua conta foi desbloqueada com sucesso. Agora você está logado.'
+      send_paranoid_instructions: 'Se sua conta existir, você receberá um email com instruções sobre como desbloquea-la em alguns minutos.'
+    mailer:
+      confirmation_instructions:
+        subject: 'Instruções de confirmação'
+      reset_password_instructions:
+        subject: 'Instruções de reset de senha'
+      unlock_instructions:
+        subject: 'Instruções de desbloqueio'
