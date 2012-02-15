@@ -24,7 +24,7 @@ SQL
   # Verifica se a discussion em que se deseja postar já está encerrada
   ##
   def verify_discussion_closed
-    not Discussion.find(self.discussion_id).closed?
+    not Discussion.find(self.discussion_id).closed? # FALSE para nao cadastrar
   end
 
 end
