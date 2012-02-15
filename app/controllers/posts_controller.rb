@@ -51,7 +51,6 @@ class PostsController < ApplicationController
   # POST /discussions/:id/posts
   # POST /discussions/:id/posts.xml
   def create
-
     # parametros necessarios para se criar um post
     params[:discussion_post][:user_id] = current_user.id
     params[:discussion_post][:discussion_id] = params[:discussion_id]
@@ -109,10 +108,13 @@ class PostsController < ApplicationController
     @file = nil
     post_id = params[:id]
 
-    # verifica se o post é do usuário
-    if DiscussionPost.find(post_id).user_id == current_user.id
-      attachment = {:attachment => params[:attachment]}
+    post = DiscussionPost.find(post_id)
+    # verifica se o forum ainda esta aberto
+    discussion_closed = Discussion.find(post.discussion_id).closed?
 
+    # verifica se o post é do usuário
+    if ((not discussion_closed) and (post.user_id == current_user.id))
+      attachment = {:attachment => params[:attachment]}
       @file = DiscussionPostFiles.new attachment
       @file.discussion_post_id = post_id
     end

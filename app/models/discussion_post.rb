@@ -1,6 +1,6 @@
 class DiscussionPost < ActiveRecord::Base
-
   belongs_to :discussion
+  before_save :verify_discussion_closed
 
   ##
   # Todos os posts relacionados a discussion passada
@@ -18,6 +18,13 @@ class DiscussionPost < ActiveRecord::Base
 SQL
 
     DiscussionPost.find_by_sql([query, discussion_id])
+  end
+
+  ##
+  # Verifica se a discussion em que se deseja postar já está encerrada
+  ##
+  def verify_discussion_closed
+    not Discussion.find(self.discussion_id).closed?
   end
 
 end

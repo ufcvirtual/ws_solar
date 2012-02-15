@@ -1,11 +1,11 @@
 class Discussion < ActiveRecord::Base
   has_many :discussion_posts
+  belongs_to :schedules
 
   ##
   # Recupera discussions
   ##
   def self.all_by_allocation_tag_id(allocation_tag_id)
-
     query = <<SQL
       SELECT t1.id, t1.name, t1.allocation_tag_id, t1.description, t1.schedule_id
         FROM discussions      AS t1
@@ -14,6 +14,13 @@ class Discussion < ActiveRecord::Base
 SQL
 
     Discussion.find_by_sql([query, allocation_tag_id])
+  end
+
+  ##
+  # Retorna TRUE se esta discussion se encontra fechada
+  ##
+  def closed?
+    Schedule.find(self.schedule_id).end_date.to_time < Time.now.to_time
   end
 
 end
