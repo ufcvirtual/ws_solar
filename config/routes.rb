@@ -22,14 +22,21 @@ WsSolar::Application.routes.draw do
   end
 
   # discussions/:id/posts
-  resources :discussions do
+  resources :discussions, :only => [:show] do
     resources :posts
+    controller :posts do
+      match "posts/:last_post_id/news" => :news
+      match "posts/:last_post_id/history" => :history
+    end
   end
 
   # anexo de arquivos a um post
   resources :posts, :only => [:attach_file] do
-    post 'attach_file', :on => :member
+    post :attach_file, :on => :member
   end
+
+  # match "/discussions/:id/posts/news/:date" => "posts#news"
+  # match "/discussions/:id/posts/history/:date" => "posts#history"
 
   root :to => "home#index"
 

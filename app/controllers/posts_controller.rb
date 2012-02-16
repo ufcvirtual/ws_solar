@@ -10,13 +10,31 @@ class PostsController < ApplicationController
     # retirando caracteres indesejados
     # para esta parte do projeto, os caracteres HTML nao devem ser exibidos
     posts = @discussion_posts
-    @discussion_posts.collect {|post| post.content = sanitize(post.content, :tags => []).strip }
+    @discussion_posts.collect {|post|
+      post.content_first = sanitize(post.content_first, :tags => []).strip
+      post.content_last = sanitize(post.content_last, :tags => []).strip
+    }
 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @discussion_posts }
       format.json  { render :json => @discussion_posts }
     end
+  end
+
+  ##
+  # Recupera somente os posts a partir da data informada
+  ##
+  def news
+    posts = DiscussionPost.find_news_by_discussion_id_and_last_post_id(params[:discussion_id], params[:last_post_id])
+    raise "#{posts}"
+  end
+
+  ##
+  # Recupera somente os posts anteriores a data informada
+  ##
+  def history
+    raise "#{params['date'].to_time}"
   end
 
   # GET /discussions/1/posts/1

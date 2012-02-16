@@ -7,8 +7,6 @@
     <th>Allocation tag</th>
     <th>Schedule</th>
     <th></th>
-    <th></th>
-    <th></th>
   </tr>
 
 <% @discussions.each do |discussion| %>
@@ -18,12 +16,6 @@
     <td><%= discussion.allocation_tag_id %></td>
     <td><%= discussion.schedule_id %></td>
     <td><%= link_to 'Show', discussion %></td>
-    <td><%= link_to 'Edit', edit_discussion_path(discussion) %></td>
-    <td><%= link_to 'Destroy', discussion, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
-
-<br />
-
-<%= link_to 'New Discussion', new_discussion_path %>
