@@ -6,14 +6,7 @@ class PostsController < ApplicationController
   # GET /discussions/1/posts.xml
   def index
     @discussion_posts = DiscussionPost.find_all_by_discussion_id(params[:discussion_id])
-
-    # retirando caracteres indesejados
-    # para esta parte do projeto, os caracteres HTML nao devem ser exibidos
-    posts = @discussion_posts
-    @discussion_posts.collect {|post|
-      post.content_first = sanitize(post.content_first, :tags => []).strip
-      post.content_last = sanitize(post.content_last, :tags => []).strip
-    }
+    @discussion_posts = sanitize_posts(@discussion_posts) # Para esta parte do projeto, os caracteres HTML nao devem ser exibidos
 
     respond_to do |format|
       format.html # index.html.erb
@@ -22,19 +15,26 @@ class PostsController < ApplicationController
     end
   end
 
-  ##
-  # Recupera somente os posts a partir da data informada
-  ##
+  # GET /discussions/1/posts/20120217111000/news
   def news
-    posts = DiscussionPost.find_news_by_discussion_id_and_last_post_id(params[:discussion_id], params[:last_post_id])
-    raise "#{posts}"
+    @discussion_posts = DiscussionPost.find_news_by_discussion_id(params[:discussion_id], params[:date].to_time)
+    @discussion_posts = sanitize_posts(@discussion_posts) # Para esta parte do projeto, os caracteres HTML nao devem ser exibidos
+
+    respond_to do |format|
+      format.xml  { render :xml => @discussion_posts }
+      format.json  { render :json => @discussion_posts }
+    end
   end
 
-  ##
-  # Recupera somente os posts anteriores a data informada
-  ##
+  # GET /discussions/1/posts/20120217111000/history
   def history
-    raise "#{params['date'].to_time}"
+    @discussion_posts = DiscussionPost.find_history_by_discussion_id(params[:discussion_id], params[:date].to_time)
+    @discussion_posts = sanitize_posts(@discussion_posts) # Para esta parte do projeto, os caracteres HTML nao devem ser exibidos
+
+    respond_to do |format|
+      format.xml  { render :xml => @discussion_posts }
+      format.json  { render :json => @discussion_posts }
+    end
   end
 
   # GET /discussions/1/posts/1
@@ -145,6 +145,20 @@ class PostsController < ApplicationController
       end
     end
 
+  end
+
+  private
+
+  ##
+  # Tratamento do conteudo dos posts.
+  # Retirando caracteres indesejados para esta parte do projeto.
+  ##
+  def sanitize_posts(discussion_posts)
+    discussion_posts.collect {|post|
+      post.content_first = sanitize(post.content_first, :tags => []).strip
+      post.content_last = sanitize(post.content_last, :tags => []).strip
+    }
+    discussion_posts
   end
 
 end

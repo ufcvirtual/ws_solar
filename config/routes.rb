@@ -25,8 +25,8 @@ WsSolar::Application.routes.draw do
   resources :discussions, :only => [:show] do
     resources :posts
     controller :posts do
-      match "posts/:last_post_id/news" => :news
-      match "posts/:last_post_id/history" => :history
+      match "posts/:date/news" => :news
+      match "posts/:date/history" => :history
     end
   end
 
