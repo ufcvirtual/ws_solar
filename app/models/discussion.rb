@@ -16,7 +16,7 @@ class Discussion < ActiveRecord::Base
         JOIN schedules        AS t3 ON t3.id = t1.schedule_id
    LEFT JOIN discussion_posts AS t4 ON t4.discussion_id = t1.id
        WHERE t2.id = ?
-       GROUP BY t1.id, t3.end_date
+       GROUP BY t1.id, t3.end_date, t1.name, t1.allocation_tag_id, t1.description, t1.schedule_id
        ORDER BY closed, last_post_date DESC
 SQL
 
