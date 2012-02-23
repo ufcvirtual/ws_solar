@@ -24,6 +24,7 @@ class PostsController < ApplicationController
     @discussion_posts = sanitize_posts(@discussion_posts) # Para esta parte do projeto, os caracteres HTML nao devem ser exibidos
 
     respond_to do |format|
+      format.html # news.html.erb
       format.xml  { render :xml => @discussion_posts }
       format.json  { render :json => @discussion_posts }
     end
@@ -35,6 +36,7 @@ class PostsController < ApplicationController
     @discussion_posts = sanitize_posts(@discussion_posts) # Para esta parte do projeto, os caracteres HTML nao devem ser exibidos
 
     respond_to do |format|
+      format.html # history.html.erb
       format.xml  { render :xml => @discussion_posts }
       format.json  { render :json => @discussion_posts }
     end
