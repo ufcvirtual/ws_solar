@@ -1,7 +1,4 @@
 WsSolar::Application.routes.draw do
-
-  get "home/index"
-
   devise_for :users, :controllers => { :sessions => "sessions" }
 
   devise_scope :user do
@@ -35,8 +32,13 @@ WsSolar::Application.routes.draw do
     post :attach_file, :on => :member
   end
 
+  resources :images, :only => [:users, :individual_user] do
+    get :users, :on => :member
+    get :individual_user, :on => :member
+  end
+
   # acessando fotos do usuario
-  match "/users/:id/photos/:style.:extension", :to => "application#photo"
+  match "/users/:id/photos/:style.:extension", :to => "images#users"
 
   root :to => "home#index"
 
