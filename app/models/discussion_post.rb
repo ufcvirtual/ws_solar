@@ -15,7 +15,8 @@ class DiscussionPost < ActiveRecord::Base
   ##
   def self.find_all_by_discussion_id(discussion_id)
     query = <<SQL
-        SELECT t1.id,
+        SELECT t3.id AS user_id,
+               t1.id,
                t1.parent_id,
                t1.profile_id,
                t1.discussion_id,

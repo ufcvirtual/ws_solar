@@ -35,8 +35,8 @@ WsSolar::Application.routes.draw do
     post :attach_file, :on => :member
   end
 
-  # match "/discussions/:id/posts/news/:date" => "posts#news"
-  # match "/discussions/:id/posts/history/:date" => "posts#history"
+  # acessando fotos do usuario
+  match "/users/:id/photos/:style.:extension", :to => "application#photo"
 
   root :to => "home#index"
 
