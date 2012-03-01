@@ -1,4 +1,7 @@
 class ImagesController < ApplicationController
+
+  before_filter :authenticate_user!
+
   ##
   # Recupera imagens de todos os usuarios passados por id
   ##

@@ -1,5 +1,7 @@
 class PostsController < ApplicationController
 
+  before_filter :authenticate_user!
+
   include ActionView::Helpers::SanitizeHelper
 
   # GET /discussions/1/posts

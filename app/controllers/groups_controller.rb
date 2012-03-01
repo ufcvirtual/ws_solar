@@ -1,5 +1,7 @@
 class GroupsController < ApplicationController
 
+  before_filter :authenticate_user!
+
   def index
     @groups = CurriculumUnit.find_user_groups_by_curriculum_unit_and_user(params[:curriculum_unit_id], current_user.id)
 
@@ -11,5 +13,4 @@ class GroupsController < ApplicationController
 
   def show
   end
-
 end

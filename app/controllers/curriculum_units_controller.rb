@@ -1,5 +1,7 @@
 class CurriculumUnitsController < ApplicationController
 
+  before_filter :authenticate_user!
+
   def index
     @curriculum_units = curriculum_units_of_user
 
@@ -28,7 +30,6 @@ class CurriculumUnitsController < ApplicationController
   private
 
   def curriculum_units_of_user(user_id = current_user.id)
-      CurriculumUnit.find_default_by_user_id(user_id)
+    CurriculumUnit.find_default_by_user_id(user_id)
   end
-
 end

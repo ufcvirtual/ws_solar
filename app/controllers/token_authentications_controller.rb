@@ -1,4 +1,5 @@
 class TokenAuthenticationsController < ApplicationController
+
   before_filter :authenticate_user!
 
   def create
@@ -13,7 +14,6 @@ class TokenAuthenticationsController < ApplicationController
         render :status => 200, :json => { :new_token => { :error => "Success", :auth_token => current_user.authentication_token } }
       }
     end
-
   end
 
   def destroy

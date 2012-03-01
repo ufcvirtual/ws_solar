@@ -1,7 +1,5 @@
 class HomeController < ApplicationController
-
   def index
-
 	@title = 'Web Service SOLAR'
   	@text = user_signed_in? ? 'Bem vindo' : 'Voce precisa estar logado para ter acesso'
 
@@ -11,5 +9,4 @@ class HomeController < ApplicationController
 		format.json  { render :json => {:title => @title, :text => @text} }
     end
   end
-
 end
