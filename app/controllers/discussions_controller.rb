@@ -2,8 +2,8 @@ class DiscussionsController < ApplicationController
 
   before_filter :authenticate_user!
 
-  # GET /discussions
-  # GET /discussions.xml
+  # GET /groups/:id/discussions
+  # GET /groups/:id/discussions.xml
   def index
     # recupera a allocation_tag da turma
     allocation_tag = AllocationTag.find_by_group_id(params[:group_id])
