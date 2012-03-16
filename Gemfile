@@ -12,6 +12,7 @@ gem 'pg', '0.11.0'
 gem 'devise', '1.4.9'
 gem 'paperclip'
 
+gem 'rubyzip', '0.9.5'
 # Use unicorn as the web server
 # gem 'unicorn'
 

@@ -17,5 +17,4 @@ class User < ActiveRecord::Base
   # def ensure_authentication_token!
     # reset_authentication_token! if authentication_token.blank? 
   # end
-
 end
