@@ -74,5 +74,4 @@ SQL
 
     DiscussionPost.find_by_sql([query, discussion_id])
   end
-
 end

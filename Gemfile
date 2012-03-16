@@ -34,4 +34,3 @@ gem 'paperclip'
 # group :development, :test do
 #   gem 'webrat'
 # end
-

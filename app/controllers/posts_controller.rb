@@ -167,5 +167,4 @@ class PostsController < ApplicationController
     }
     discussion_posts
   end
-
 end

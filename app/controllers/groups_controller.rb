@@ -10,7 +10,4 @@ class GroupsController < ApplicationController
       format.json  { render :json => @groups }
     end
   end
-
-  def show
-  end
 end

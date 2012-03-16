@@ -2,7 +2,7 @@ WsSolar::Application.routes.draw do
   devise_for :users, :controllers => { :sessions => "sessions" }, :only => [:new]
 
   devise_scope :user do
-    get "logout", :to => "devise/sessions#destroy"
+    get "logout", :to => "sessions#destroy"
     resources :sessions, :only => [:new, :create, :destroy]
   end
 
@@ -14,7 +14,7 @@ WsSolar::Application.routes.draw do
   end
 
   # groups/:id/discussions
-  resources :groups, :only => [:show] do
+  resources :groups, :only => [] do # nao existe uma consulta direta a turmas
     resources :discussions, :only => [:index, :show]
   end
 
