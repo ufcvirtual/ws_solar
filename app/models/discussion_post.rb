@@ -58,10 +58,11 @@ SQL
                t1.parent_id,
                t1.profile_id,
                t1.discussion_id,
+               t3.id                          AS user_id,
                t3.name                        AS user_name,
                t3.username                    AS user_username,
-               substring(t1.content, 1, 150)  AS content_first,
-               substring(t1.content, 151)     AS content_last,
+               t1.content                     AS content_first,
+               NULL                           AS content_last,
                to_char(t1.updated_at::timestamp, 'YYYYMMDDHH24MISS') AS updated
           FROM discussion_posts AS t1
           JOIN discussions      AS t2 ON t2.id = t1.discussion_id

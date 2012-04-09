@@ -23,7 +23,7 @@ class PostsController < ApplicationController
   # GET /discussions/1/posts/20120217111000/news
   def news
     @discussion_posts = DiscussionPost.find_news_by_discussion_id(params[:discussion_id], params[:date].to_time)
-    @discussion_posts = sanitize_posts(@discussion_posts) # Para esta parte do projeto, os caracteres HTML nao devem ser exibidos
+    @discussion_posts = sanitize_and_break_posts(@discussion_posts) # Para esta parte do projeto, os caracteres HTML nao devem ser exibidos
 
     respond_to do |format|
       format.html # news.html.erb
@@ -35,7 +35,7 @@ class PostsController < ApplicationController
   # GET /discussions/1/posts/20120217111000/history
   def history
     @discussion_posts = DiscussionPost.find_history_by_discussion_id(params[:discussion_id], params[:date].to_time)
-    @discussion_posts = sanitize_posts(@discussion_posts) # Para esta parte do projeto, os caracteres HTML nao devem ser exibidos
+    @discussion_posts = sanitize_and_break_posts(@discussion_posts) # Para esta parte do projeto, os caracteres HTML nao devem ser exibidos
 
     respond_to do |format|
       format.html # history.html.erb
@@ -151,7 +151,6 @@ class PostsController < ApplicationController
         format.html { render :json => {:result => 0}, :status => :unprocessable_entity }
       end
     end
-
   end
 
   private
@@ -160,10 +159,11 @@ class PostsController < ApplicationController
   # Tratamento do conteudo dos posts.
   # Retirando caracteres indesejados para esta parte do projeto.
   ##
-  def sanitize_posts(discussion_posts)
+  def sanitize_and_break_posts(discussion_posts)
     discussion_posts.collect {|post|
-      post.content_first = sanitize(post.content_first, :tags => []).strip
-      post.content_last = sanitize(post.content_last, :tags => []).strip
+      san_post = sanitize(post.content_first, :tags => []).strip
+      post.content_first = san_post[0..150] # primeiros caracteres
+      post.content_last = san_post[151..-1] # parte final
     }
     discussion_posts
   end
