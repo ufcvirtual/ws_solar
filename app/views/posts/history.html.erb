@@ -2,6 +2,7 @@
 
 <table>
   <tr>
+    <th>Id User</th>
     <th>User</th>
     <th>Profile</th>
     <th>Content</th>
@@ -12,9 +13,10 @@
 
 <% @discussion_posts.each do |discussion_post| %>
   <tr>
+    <td><%= discussion_post.user_id %></td>
     <td><%= discussion_post.user_name %></td>
     <td><%= discussion_post.profile_id %></td>
-    <td><%= discussion_post.content_first + discussion_post.content_last %></td>
+    <td><%=raw "#{discussion_post.content_first}#{discussion_post.content_last}" %></td>
     <td><%= discussion_post.updated.to_time %></td>
     <td><%= discussion_post.parent_id %></td>
     <td><%= link_to 'Show', discussion_post_path(Discussion.find(discussion_post.discussion_id), discussion_post) %></td>

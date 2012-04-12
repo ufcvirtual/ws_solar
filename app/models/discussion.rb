@@ -19,7 +19,26 @@ class Discussion < ActiveRecord::Base
        ORDER BY closed, last_post_date DESC
 SQL
 
-    Discussion.find_by_sql([query, allocation_tag_id])
+    self.find_by_sql([query, allocation_tag_id])
+  end
+
+  ##
+  # Discussions por usuario
+  ##
+  def self.all_by_user(user_id)
+    query = <<SQL
+      SELECT t4.id
+        FROM groups           AS t1
+        JOIN allocation_tags  AS t2 ON t2.group_id = t1.id
+        JOIN allocations      AS t3 ON t3.allocation_tag_id = t2.id
+        JOIN discussions      AS t4 ON t4.allocation_tag_id = t2.id
+       WHERE t3.user_id = ?
+         AND t3.status = ?
+SQL
+    discussions = []
+    d = self.find_by_sql([query, user_id, Allocation_Activated])
+    d.each {|discussion| discussions << discussion.id} # array com os ids das discussions do usuario
+    return discussions
   end
 
   ##

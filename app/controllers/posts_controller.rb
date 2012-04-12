@@ -7,11 +7,16 @@ class PostsController < ApplicationController
   # GET /discussions/1/posts
   # GET /discussions/1/posts.xml
   def index
-    @discussion_posts = DiscussionPost.find_all_by_discussion_id(params[:discussion_id])
+    discussions = Discussion.all_by_user(current_user.id)
+    @discussion_posts = []
 
-    @discussion_posts.collect {|post|
-      post.content = sanitize(post.content, :tags => []).strip
-    }
+    if discussions.include?(params[:discussion_id].to_i)
+      @discussion_posts = DiscussionPost.find_all_by_discussion_id(params[:discussion_id])
+
+      @discussion_posts.collect {|post|
+        post.content = sanitize(post.content, :tags => []).strip
+      }
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -22,8 +27,13 @@ class PostsController < ApplicationController
 
   # GET /discussions/1/posts/20120217111000/news
   def news
-    @discussion_posts = DiscussionPost.find_news_by_discussion_id(params[:discussion_id], params[:date].to_time)
-    @discussion_posts = sanitize_and_break_posts(@discussion_posts) # Para esta parte do projeto, os caracteres HTML nao devem ser exibidos
+    discussions = Discussion.all_by_user(current_user.id)
+    @discussion_posts = []
+
+    if discussions.include?(params[:discussion_id].to_i)
+      @discussion_posts = DiscussionPost.find_news_by_discussion_id(params[:discussion_id], params[:date].to_time)
+      @discussion_posts = sanitize_and_break_posts(@discussion_posts) # Para esta parte do projeto, os caracteres HTML nao devem ser exibidos
+    end
 
     respond_to do |format|
       format.html # news.html.erb
@@ -34,8 +44,13 @@ class PostsController < ApplicationController
 
   # GET /discussions/1/posts/20120217111000/history
   def history
-    @discussion_posts = DiscussionPost.find_history_by_discussion_id(params[:discussion_id], params[:date].to_time)
-    @discussion_posts = sanitize_and_break_posts(@discussion_posts) # Para esta parte do projeto, os caracteres HTML nao devem ser exibidos
+    discussions = Discussion.all_by_user(current_user.id)
+    @discussion_posts = []
+
+    if discussions.include?(params[:discussion_id].to_i)
+      @discussion_posts = DiscussionPost.find_history_by_discussion_id(params[:discussion_id], params[:date].to_time)
+      @discussion_posts = sanitize_and_break_posts(@discussion_posts) # Para esta parte do projeto, os caracteres HTML nao devem ser exibidos
+    end
 
     respond_to do |format|
       format.html # history.html.erb
