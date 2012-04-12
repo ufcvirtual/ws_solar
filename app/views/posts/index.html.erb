@@ -14,7 +14,7 @@
 <% @discussion_posts.each do |discussion_post| %>
   <tr>
     <td><%= image_tag User.find(discussion_post.user_id).photo.url(:small) %></td>
-    <td><%= discussion_post.user_name %></td>
+    <td><%= discussion_post.user_nick %></td>
     <td><%= discussion_post.profile_id %></td>
     <td><%= discussion_post.content %></td>
     <td><%= discussion_post.updated.to_time %></td>

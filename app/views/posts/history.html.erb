@@ -14,7 +14,7 @@
 <% @discussion_posts.each do |discussion_post| %>
   <tr>
     <td><%= discussion_post.user_id %></td>
-    <td><%= discussion_post.user_name %></td>
+    <td><%= discussion_post.user_nick %></td>
     <td><%= discussion_post.profile_id %></td>
     <td><%=raw "#{discussion_post.content_first}#{discussion_post.content_last}" %></td>
     <td><%= discussion_post.updated.to_time %></td>

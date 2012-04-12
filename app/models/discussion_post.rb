@@ -20,8 +20,8 @@ class DiscussionPost < ActiveRecord::Base
                t1.parent_id,
                t1.profile_id,
                t1.discussion_id,
-               t3.name                        AS user_name,
-               t3.username                    AS user_username,
+               t3.id        AS user_id,
+               t3.username  AS user_nick,
                t1.content,
                to_char(t1.updated_at::timestamp, 'YYYYMMDDHH24MISS') AS updated
           FROM discussion_posts AS t1
@@ -59,8 +59,7 @@ SQL
                t1.profile_id,
                t1.discussion_id,
                t3.id                          AS user_id,
-               t3.name                        AS user_name,
-               t3.username                    AS user_username,
+               t3.nick                        AS user_nick,
                t1.content                     AS content_first,
                NULL                           AS content_last,
                to_char(t1.updated_at::timestamp, 'YYYYMMDDHH24MISS') AS updated
