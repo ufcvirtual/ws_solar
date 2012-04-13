@@ -176,9 +176,9 @@ class PostsController < ApplicationController
   ##
   def sanitize_and_break_posts(discussion_posts)
     discussion_posts.collect {|post|
-      san_post = sanitize(post.content_first, :tags => []).strip
-      post.content_first = san_post[0..150] # primeiros caracteres
-      post.content_last = san_post[151..-1] # parte final
+      san_post = sanitize(post['content_first'], :tags => []).strip
+      post['content_first'] = san_post[0..150] # primeiros caracteres
+      post['content_last'] = san_post[151..-1] # parte final
     }
     discussion_posts
   end

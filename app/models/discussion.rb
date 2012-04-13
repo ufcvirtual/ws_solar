@@ -14,12 +14,12 @@ class Discussion < ActiveRecord::Base
         JOIN allocation_tags  AS t2 ON t2.id = t1.allocation_tag_id
         JOIN schedules        AS t3 ON t3.id = t1.schedule_id
    LEFT JOIN discussion_posts AS t4 ON t4.discussion_id = t1.id
-       WHERE t2.id = ?
+       WHERE t2.id = #{allocation_tag_id}
        GROUP BY t1.id, t3.end_date, t1.name, t1.allocation_tag_id, t1.description, t1.schedule_id
        ORDER BY closed, last_post_date DESC
 SQL
 
-    self.find_by_sql([query, allocation_tag_id])
+    ActiveRecord::Base.connection.select_all query
   end
 
   ##

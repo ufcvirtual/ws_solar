@@ -10,10 +10,10 @@
 
 <% @discussions.each do |discussion| %>
   <tr>
-    <td><%= discussion.name %></td>
-    <td><%= discussion.description %></td>
-    <td><%= discussion.allocation_tag_id %></td>
-    <td><%= link_to 'Show', discussion %></td>
+    <td><%= discussion['name'] %></td>
+    <td><%= discussion['description'] %></td>
+    <td><%= discussion['allocation_tag_id'] %></td>
+    <td><%= link_to 'Show', Discussion.find(discussion['id']) %></td>
   </tr>
 <% end %>
 </table>

@@ -66,12 +66,13 @@ SQL
           FROM discussion_posts AS t1
           JOIN discussions      AS t2 ON t2.id = t1.discussion_id
           JOIN users            AS t3 ON t3.id = t1.user_id
-         WHERE t2.id = ?
+         WHERE t2.id = #{discussion_id}
            AND t1.updated_at::timestamp #{operation} '#{date_post}'::timestamp
          ORDER BY t1.updated_at DESC, t1.id DESC
          LIMIT 20
 SQL
 
-    DiscussionPost.find_by_sql([query, discussion_id])
+    # DiscussionPost.find_by_sql([query, discussion_id])
+    ActiveRecord::Base.connection.select_all query
   end
 end
