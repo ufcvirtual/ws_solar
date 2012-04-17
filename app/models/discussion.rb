@@ -6,7 +6,6 @@ class Discussion < ActiveRecord::Base
     query = <<SQL
       SELECT t1.id,
              CASE WHEN t3.end_date < now() THEN t1.name || ' (fechado)' ELSE t1.name END AS name,
-             t1.allocation_tag_id,
              t1.description,
              CASE WHEN t3.end_date < now() THEN true ELSE false END     AS closed,
              max(to_char(t4.updated_at::timestamp, 'YYYYMMDDHH24MISS')) AS last_post_date
