@@ -23,7 +23,13 @@ WsSolar::Application.routes.draw do
     resources :posts
     controller :posts do
       match "posts/:date/news" => :news
+      match "posts/:date/news/:order/order" => :news
+      match "posts/:date/news/:limit/limit" => :news
+      match "posts/:date/news/:order/order/:limit/limit" => :news
       match "posts/:date/history" => :history
+      match "posts/:date/history/:order/order" => :history
+      match "posts/:date/history/:limit/limit" => :history
+      match "posts/:date/history/:order/order/:limit/limit" => :history
     end
   end
 

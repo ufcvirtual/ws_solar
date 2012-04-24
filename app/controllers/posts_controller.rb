@@ -25,13 +25,17 @@ class PostsController < ApplicationController
     end
   end
 
-  # GET /discussions/1/posts/20120217111000/news
+  # GET /discussions/1/posts/20120217111000/news/asc/order/10/limit
   def news
     discussions = Discussion.all_by_user(current_user.id)
     @discussion_posts = []
 
     if discussions.include?(params[:discussion_id].to_i)
-      @discussion_posts = DiscussionPost.find_news_by_discussion_id(params[:discussion_id], params[:date].to_time)
+      p = { :discussion_id => params[:discussion_id],:date => params[:date].to_time }
+      p[:order] = params[:order] if params.include?(:order)
+      p[:limit] = params[:limit] if params.include?(:limit)
+
+      @discussion_posts = DiscussionPost.news(p)
       @discussion_posts = sanitize_and_break_posts(@discussion_posts) # Para esta parte do projeto, os caracteres HTML nao devem ser exibidos
     end
 
@@ -42,13 +46,17 @@ class PostsController < ApplicationController
     end
   end
 
-  # GET /discussions/1/posts/20120217111000/history
+  # GET /discussions/1/posts/20120217111000/history/asc/order/10/limit
   def history
     discussions = Discussion.all_by_user(current_user.id)
     @discussion_posts = []
 
     if discussions.include?(params[:discussion_id].to_i)
-      @discussion_posts = DiscussionPost.find_history_by_discussion_id(params[:discussion_id], params[:date].to_time)
+      p = { :discussion_id => params[:discussion_id],:date => params[:date].to_time }
+      p[:order] = params[:order] if params.include?(:order)
+      p[:limit] = params[:limit] if params.include?(:limit)
+
+      @discussion_posts = DiscussionPost.history(p)
       @discussion_posts = sanitize_and_break_posts(@discussion_posts) # Para esta parte do projeto, os caracteres HTML nao devem ser exibidos
     end
 
