@@ -7,15 +7,19 @@ class PostsController < ApplicationController
   # GET /discussions/1/posts
   # GET /discussions/1/posts.xml
   def index
-    discussions = Discussion.all_by_user(current_user.id)
     @discussion_posts = []
 
-    if discussions.include?(params[:discussion_id].to_i)
-      @discussion_posts = DiscussionPost.find_all_by_discussion_id(params[:discussion_id])
+    begin
+      discussion = Discussion.find(params[:discussion_id])
 
-      @discussion_posts.collect {|post|
-        post.content = sanitize(post.content, :tags => []).strip
-      }
+      if  discussion.user_can_interact?(current_user.id)
+        @discussion_posts = DiscussionPost.find_all_by_discussion_id(params[:discussion_id])
+
+        @discussion_posts.collect {|post|
+          post.content = sanitize(post.content, :tags => []).strip
+        }
+      end
+    rescue
     end
 
     respond_to do |format|
@@ -25,43 +29,23 @@ class PostsController < ApplicationController
     end
   end
 
-  # GET /discussions/1/posts/20120217111000/news/asc/order/10/limit
-  def news
-    discussions = Discussion.all_by_user(current_user.id)
+  # GET /discussions/1/posts/20120217/news/asc/order/10/limit
+  # GET /discussions/1/posts/20120217/history/asc/order/10/limit
+  def list
     @discussion_posts = []
 
-    if discussions.include?(params[:discussion_id].to_i)
-      p = { :discussion_id => params[:discussion_id],:date => params[:date].to_time }
-      p[:order] = params[:order] if params.include?(:order)
-      p[:limit] = params[:limit] if params.include?(:limit)
+    begin
+      discussion = Discussion.find(params[:discussion_id])
 
-      @discussion_posts = DiscussionPost.news(p)
-      @discussion_posts = sanitize_and_break_posts(@discussion_posts) # Para esta parte do projeto, os caracteres HTML nao devem ser exibidos
+      if discussion.user_can_interact?(current_user.id)
+        p = params.select { |k, v| ['discussion_id', 'date', 'type', 'order', 'limit'].include?(k) }
+        @discussion_posts = sanitize_and_break_posts(discussion.posts(p))
+      end
+    rescue
     end
 
     respond_to do |format|
-      format.html # news.html.erb
-      format.xml  { render :xml => @discussion_posts }
-      format.json  { render :json => @discussion_posts }
-    end
-  end
-
-  # GET /discussions/1/posts/20120217111000/history/asc/order/10/limit
-  def history
-    discussions = Discussion.all_by_user(current_user.id)
-    @discussion_posts = []
-
-    if discussions.include?(params[:discussion_id].to_i)
-      p = { :discussion_id => params[:discussion_id],:date => params[:date].to_time }
-      p[:order] = params[:order] if params.include?(:order)
-      p[:limit] = params[:limit] if params.include?(:limit)
-
-      @discussion_posts = DiscussionPost.history(p)
-      @discussion_posts = sanitize_and_break_posts(@discussion_posts) # Para esta parte do projeto, os caracteres HTML nao devem ser exibidos
-    end
-
-    respond_to do |format|
-      format.html # history.html.erb
+      format.html # list.html.erb
       format.xml  { render :xml => @discussion_posts }
       format.json  { render :json => @discussion_posts }
     end

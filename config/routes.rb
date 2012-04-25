@@ -22,14 +22,16 @@ WsSolar::Application.routes.draw do
   resources :discussions, :only => [:show] do
     resources :posts
     controller :posts do
-      match "posts/:date/news" => :news
-      match "posts/:date/news/:order/order" => :news
-      match "posts/:date/news/:limit/limit" => :news
-      match "posts/:date/news/:order/order/:limit/limit" => :news
-      match "posts/:date/history" => :history
-      match "posts/:date/history/:order/order" => :history
-      match "posts/:date/history/:limit/limit" => :history
-      match "posts/:date/history/:order/order/:limit/limit" => :history
+      # news
+      match "posts/:date/news" => :list, :type => "news"
+      match "posts/:date/news/:order/order" => :list, :type => "news"
+      match "posts/:date/news/:limit/limit" => :list, :type => "news"
+      match "posts/:date/news/:order/order/:limit/limit" => :list, :type => "news"
+      # history
+      match "posts/:date/history" => :list, :type => "history"
+      match "posts/:date/history/:order/order" => :list, :type => "history"
+      match "posts/:date/history/:limit/limit" => :list, :type => "history"
+      match "posts/:date/history/:order/order/:limit/limit" => :list, :type => "history"
     end
   end
 

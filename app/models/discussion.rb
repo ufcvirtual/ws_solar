@@ -2,6 +2,47 @@ class Discussion < ActiveRecord::Base
   has_many :discussion_posts
   belongs_to :schedules
 
+  def user_can_interact?(user_id)
+    query = <<SQL
+      SELECT true AS can
+        FROM groups           AS t1
+        JOIN allocation_tags  AS t2 ON t2.group_id = t1.id
+        JOIN allocations      AS t3 ON t3.allocation_tag_id = t2.id
+        JOIN discussions      AS t4 ON t4.allocation_tag_id = t2.id
+       WHERE t3.user_id = #{user_id}
+         AND t3.status = #{Allocation_Activated}
+         AND t4.id = #{self.id}
+SQL
+
+    ActiveRecord::Base.connection.select_all(query).length > 0 ? true : false
+  end
+
+  def posts(opts = {})
+    opts = { "type" => 'news', "order" => 'desc', "limit" => 20 }.merge(opts)
+    type = (opts["type"] == 'news') ? '>' : '<'
+
+    query = <<SQL
+        SELECT t1.id,
+               t1.parent_id,
+               t1.profile_id,
+               t1.discussion_id,
+               t3.id                          AS user_id,
+               t3.nick                        AS user_nick,
+               t1.content                     AS content_first,
+               NULL                           AS content_last,
+               to_char(t1.updated_at::timestamp, 'YYYYMMDDHH24MISS') AS updated
+          FROM discussion_posts AS t1
+          JOIN discussions      AS t2 ON t2.id = t1.discussion_id
+          JOIN users            AS t3 ON t3.id = t1.user_id
+         WHERE t2.id = #{self.id}
+           AND t1.updated_at::timestamp #{type} '#{opts["date"]}'::timestamp
+         ORDER BY t1.updated_at #{opts["order"]}, t1.id #{opts["order"]}
+         LIMIT #{opts["limit"]}
+SQL
+
+    ActiveRecord::Base.connection.select_all query
+  end
+
   def self.all_by_allocation_tag_id(allocation_tag_id)
     query = <<SQL
       SELECT t1.id,
@@ -21,28 +62,6 @@ SQL
     ActiveRecord::Base.connection.select_all query
   end
 
-  ##
-  # Discussions por usuario
-  ##
-  def self.all_by_user(user_id)
-    query = <<SQL
-      SELECT t4.id
-        FROM groups           AS t1
-        JOIN allocation_tags  AS t2 ON t2.group_id = t1.id
-        JOIN allocations      AS t3 ON t3.allocation_tag_id = t2.id
-        JOIN discussions      AS t4 ON t4.allocation_tag_id = t2.id
-       WHERE t3.user_id = ?
-         AND t3.status = ?
-SQL
-    discussions = []
-    d = self.find_by_sql([query, user_id, Allocation_Activated])
-    d.each {|discussion| discussions << discussion.id} # array com os ids das discussions do usuario
-    return discussions
-  end
-
-  ##
-  # Retorna TRUE se esta discussion se encontra fechada
-  ##
   def closed?
     Schedule.find(self.schedule_id).end_date.to_time < Time.now.to_time
   end
