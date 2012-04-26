@@ -16,7 +16,7 @@ class DiscussionPost < ActiveRecord::Base
                t3.id        AS user_id,
                t3.username  AS user_nick,
                t1.content,
-               to_char(t1.updated_at::timestamp, 'YYYYMMDDHH24MISS') AS updated
+               to_char(t1.updated_at::timestamp(0), 'YYYYMMDDHH24MISS') AS updated
           FROM discussion_posts AS t1
           JOIN discussions      AS t2 ON t2.id = t1.discussion_id
           JOIN users            AS t3 ON t3.id = t1.user_id

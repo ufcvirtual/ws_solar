@@ -62,8 +62,6 @@ class CurriculumUnit < ActiveRecord::Base
           ) AS ucs_do_usuario
           ORDER BY semester DESC, code"
 
-    # groups1 = Group.find_by_sql(query)
-    # return (groups1.nil?) ? [] : groups1
     ActiveRecord::Base.connection.select_all query
   end
 

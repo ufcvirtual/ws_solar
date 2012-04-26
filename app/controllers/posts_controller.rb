@@ -14,7 +14,6 @@ class PostsController < ApplicationController
 
       if  discussion.user_can_interact?(current_user.id)
         @discussion_posts = DiscussionPost.find_all_by_discussion_id(params[:discussion_id])
-
         @discussion_posts.collect {|post|
           post.content = sanitize(post.content, :tags => []).strip
         }
@@ -32,7 +31,7 @@ class PostsController < ApplicationController
   # GET /discussions/1/posts/20120217/news/asc/order/10/limit
   # GET /discussions/1/posts/20120217/history/asc/order/10/limit
   def list
-    @discussion_posts = []
+    @discussion_posts, count = [], []
 
     begin
       discussion = Discussion.find(params[:discussion_id])
@@ -40,14 +39,17 @@ class PostsController < ApplicationController
       if discussion.user_can_interact?(current_user.id)
         p = params.select { |k, v| ['discussion_id', 'date', 'type', 'order', 'limit'].include?(k) }
         @discussion_posts = sanitize_and_break_posts(discussion.posts(p))
+
+        period = (@discussion_posts.empty?) ? [p['date'], p['date']] : [@discussion_posts.first['updated'], @discussion_posts.last['updated']].sort
+        count = discussion.count_posts_after_and_before_period(period)
       end
     rescue
     end
 
     respond_to do |format|
       format.html # list.html.erb
-      format.xml  { render :xml => @discussion_posts }
-      format.json  { render :json => @discussion_posts }
+      format.xml  { render :xml => count + @discussion_posts }
+      format.json  { render :json => count + @discussion_posts }
     end
   end
 
@@ -170,7 +172,7 @@ class PostsController < ApplicationController
     discussion_posts.collect {|post|
       san_post = sanitize(post['content_first'], :tags => []).strip
       post['content_first'] = san_post[0..150] # primeiros caracteres
-      post['content_last'] = san_post[151..-1] # parte final
+      post['content_last'] = san_post[151..-1] || '' # parte final
     }
     discussion_posts
   end
