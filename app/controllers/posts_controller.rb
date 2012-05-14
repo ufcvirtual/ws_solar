@@ -12,7 +12,7 @@ class PostsController < ApplicationController
     begin
       discussion = Discussion.find(params[:discussion_id])
 
-      if  discussion.user_can_interact?(current_user.id)
+      if discussion.user_can_see?(current_user.id)
         @discussion_posts = DiscussionPost.find_all_by_discussion_id(params[:discussion_id])
         @discussion_posts.collect {|post|
           post.content = sanitize(post.content, :tags => []).strip
@@ -36,7 +36,7 @@ class PostsController < ApplicationController
     begin
       discussion = Discussion.find(params[:discussion_id])
 
-      if discussion.user_can_interact?(current_user.id)
+      if discussion.user_can_see?(current_user.id)
         p = params.select { |k, v| ['discussion_id', 'date', 'type', 'order', 'limit'].include?(k) }
         @discussion_posts = sanitize_and_break_posts(discussion.posts(p))
 

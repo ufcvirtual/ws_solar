@@ -1,20 +1,29 @@
 class Discussion < ActiveRecord::Base
+
   has_many :discussion_posts
-  belongs_to :schedules
+
+  belongs_to :allocation_tag
+  belongs_to :schedule
+
+  def closed?
+    self.schedule.end_date < Date.today
+  end
+
+  def extra_time?(user_id)
+    (self.allocation_tag.is_user_class_responsible?(user_id) and self.closed?) ?
+      ((self.schedule.end_date.to_datetime + Discussion_Responsible_Extra_Time) >= Date.today) : false
+  end
+
+  def user_can_see?(user_id)
+    allocation_tags = AllocationTag.find_related_ids(self.allocation_tag_id).join(',')
+    allocations = Allocation.where("allocation_tag_id IN (#{allocation_tags}) AND status = #{Allocation_Activated} AND user_id = #{user_id}")
+
+    (allocations.length > 0) and (self.schedule.start_date <= Date.today)
+  end
 
   def user_can_interact?(user_id)
-    query = <<SQL
-      SELECT true AS can
-        FROM groups           AS t1
-        JOIN allocation_tags  AS t2 ON t2.group_id = t1.id
-        JOIN allocations      AS t3 ON t3.allocation_tag_id = t2.id
-        JOIN discussions      AS t4 ON t4.allocation_tag_id = t2.id
-       WHERE t3.user_id = #{user_id}
-         AND t3.status = #{Allocation_Activated}
-         AND t4.id = #{self.id}
-SQL
-
-    ActiveRecord::Base.connection.select_all(query).length > 0 ? true : false
+    return false unless user_can_see?(user_id)
+    return (!self.closed? or extra_time?(user_id))
   end
 
   def posts(opts = {})
@@ -23,7 +32,7 @@ SQL
 
     query = <<SQL
         SELECT t1.id,
-               CASE WHEN t1.parent_id IS NULL THEN '' ELSE t1.parent_id::text END AS parent_id,
+               COALESCE(t1.parent_id::text, '') AS parent_id,
                t1.profile_id,
                t1.discussion_id,
                t3.id                          AS user_id,

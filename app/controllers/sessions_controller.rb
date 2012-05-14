@@ -18,7 +18,7 @@ class SessionsController < Devise::SessionsController
 
   def destroy
     respond_to do |format|
-      # format.html { super }
+      format.html { super }
       format.xml {
         warden.authenticate!(:scope => resource_name, :recall => "#{controller_path}#new")
         current_user.authentication_token = nil
